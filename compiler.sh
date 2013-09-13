@@ -7,12 +7,16 @@ echo -n > Makefile.tmp
 all_cells=""
 
 row_idx=1
+col_max=0
 while read line; do
   col_idx=0
   IFS=", "
   for cell_value in $line; do
     cell_name="${col_names:$col_idx:1}$row_idx"
     all_cells="$all_cells $cell_name"
+    if [ $col_idx > $col_max ]; then
+      col_max=$col_idx
+    fi
     if [[ "${cell_value:0:1}" = "=" ]]; then
       cell_expr="${cell_value:1}"
       cell_expr="$(echo "$cell_expr" | sed -Ee 's/([A-Z]+[0-9]+)/$(shell cat \1)/g')"
@@ -30,8 +34,8 @@ while read line; do
 done < <(cat "$1")
 
 echo -e "clean:\n\trm -f $all_cells" >> Makefile.tmp
-
 echo -e "Makefile: compiler.sh $spreadsheet\n\t./compiler.sh $spreadsheet" >> Makefile.tmp
+echo -e "output.txt: $all_cells Makefile\n\tcat $all_cells | xargs -L $(($col_max + 1)) | column -t > output.txt" > Makefile
 
-( echo -e "all:$all_cells\n"; cat Makefile.tmp ) > Makefile
+cat Makefile.tmp >> Makefile
 rm Makefile.tmp
