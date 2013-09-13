@@ -9,6 +9,7 @@ all_cells=""
 row_idx=1
 while read line; do
   col_idx=0
+  IFS=", "
   for cell_value in $line; do
     cell_name="${col_names:$col_idx:1}$row_idx"
     all_cells="$all_cells $cell_name"
