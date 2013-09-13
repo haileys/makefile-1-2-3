@@ -1,5 +1,5 @@
-all: A1 B1 C1 A2 B2 C2
-
+output.txt:  A1 B1 C1 A2 B2 C2 Makefile
+	cat  A1 B1 C1 A2 B2 C2 | xargs -L 3 | column -t > output.txt
 A1: Makefile
 	echo 4 > A1
 B1: Makefile
