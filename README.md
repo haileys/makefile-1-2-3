@@ -9,3 +9,8 @@ It even supports parallel computation with `make -j 999`!
 * Edit `spreadsheet.csv`
 * Run `make`
 * View `output.txt`
+
+### Authors
+
+* [charliesome](http://github.com/charliesome)
+* [chendo](http://github.com/chendo)
